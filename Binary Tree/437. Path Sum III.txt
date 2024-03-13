@@ -1,0 +1,21 @@
+class Solution {
+public:
+
+    void solve(TreeNode* root, long long sum, int& count){
+        if(root==NULL) return;
+        if(root->val==sum){
+            count++;
+            // return;
+        }
+        solve(root->left, sum-(root->val), count);
+        solve(root->right,sum-(root->val), count);
+    }
+
+    int pathSum(TreeNode* root, int targetSum) {
+        if(root==NULL) return 0;
+        int c = 0;
+        solve(root,targetSum,c);
+        c += (pathSum(root->left,targetSum) + pathSum(root->right,targetSum));
+        return c;
+    }
+};

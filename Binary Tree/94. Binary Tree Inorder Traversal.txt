@@ -1,0 +1,42 @@
+-------- method 1 (Recursive Method) --------
+
+class Solution {
+public:
+    void solve(TreeNode* root, vector<int>& ans){
+        if(root==NULL) return;
+        solve(root->left, ans);
+        ans.push_back(root->val);  //In
+        solve(root->right, ans);   
+    }
+
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        solve(root,ans);
+        return ans;
+    }
+};
+
+-------- method 2 (Iterative Method) --------
+
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int>v;
+        stack<TreeNode*> s;
+        TreeNode* node = root;
+        while(s.size() != 0 || node != NULL){
+            if(node != NULL){
+                s.push(node);
+                node = node->left;
+            }
+
+            else{
+                TreeNode* temp = s.top();
+                s.pop();
+                v.push_back(temp->val);
+                node = temp->right;
+            }
+        }
+        return v;
+    }
+};

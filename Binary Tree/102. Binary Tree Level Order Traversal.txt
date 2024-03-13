@@ -1,0 +1,30 @@
+class Solution {
+public:
+
+    int levels(TreeNode* root){
+        if(root==NULL) return 0;
+        int ans = 1 + max(levels(root->left), levels(root->right));
+        return ans;
+    }
+
+    void solve(TreeNode* root, int n, int c, vector<int>& v){
+        if(root==NULL) return;
+        if(c==n){
+            v.push_back(root->val);
+            return;
+        }   
+        solve(root->left,n,c+1,v);
+        solve(root->right,n,c+1,v);
+    }
+
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        int n = levels(root);
+        for(int i=1; i<=n; i++){
+            vector<int>v;
+            solve(root,i,1,v);
+            ans.push_back(v);
+        }
+        return ans;
+    }
+};

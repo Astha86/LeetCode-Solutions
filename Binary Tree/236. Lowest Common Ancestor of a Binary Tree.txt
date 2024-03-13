@@ -1,0 +1,17 @@
+class Solution {
+public:
+
+    bool find(TreeNode* root, TreeNode* k){
+        if(root==NULL) return false;
+        if(root==k) return true;
+        return find(root->left,k) || find(root->right,k);
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root==NULL) return root;
+        if(root==p || root==q) return root;
+        if(find(root->left, p) && find(root->right, q)) return root;
+        if(find(root->left, q) && find(root->right, p)) return root;
+        if(find(root->left, p) && find(root->left, q)) return lowestCommonAncestor(root->left,p,q);
+        return lowestCommonAncestor(root->right,p,q);
+    }
+};
