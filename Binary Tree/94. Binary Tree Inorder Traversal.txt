@@ -40,3 +40,39 @@ public:
         return v;
     }
 };
+
+-------- method 3 (Morris Traversal Method ) --------
+// Best Method because the Space Complexity = O(1)
+
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        TreeNode* curr = root;
+        vector<int>v;
+
+        while(curr!=NULL){
+            
+            if(curr->left != NULL){
+                TreeNode* pred = curr->left;
+                while((pred->right != NULL) && (pred->right != curr)) pred = pred->right;
+
+                if(pred->right == NULL){  // link
+                    pred->right = curr;
+                    curr = curr->left;
+                }
+
+                else{  // pred->right == curr (unlink)
+                    pred->right = NULL;
+                    v.push_back(curr->val);
+                    curr = curr->right;
+                }
+            }
+
+            else{  //curr->left == NULL
+                v.push_back(curr->val);
+                curr = curr->right;
+            }
+        }
+        return v;
+    }
+};
