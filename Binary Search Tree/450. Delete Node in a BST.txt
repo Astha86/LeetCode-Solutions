@@ -1,0 +1,40 @@
+class Solution {
+public:
+
+    TreeNode* find(TreeNode* root){
+        TreeNode* pre = root->left;
+        while(pre->right) pre = pre->right;
+        return pre;
+    } 
+
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(root==NULL) return NULL;
+        if(root->val==key){
+            // case: 1 (leaf Node)
+            if(root->left==NULL && root->right==NULL) return NULL;
+
+            // case: 2 (1 child)
+            else if(root->left==NULL || root->right==NULL){
+                if(root->left==NULL) return root->right;
+                else return root->left;
+            }
+
+            // case: 3 (2 child)
+            else{
+                TreeNode* pre = find(root);
+                root->val = pre->val; // replacing the node with its inorder predecessor(or we can replace with successor)
+                root->left = deleteNode(root->left,pre->val); // deleting the the pre node
+            }
+        }
+
+        else if(root->val>key){
+            root->left = deleteNode(root->left,key);
+        }
+
+        else{
+            root->right = deleteNode(root->right,key);
+        }
+
+        return root;
+    }
+};

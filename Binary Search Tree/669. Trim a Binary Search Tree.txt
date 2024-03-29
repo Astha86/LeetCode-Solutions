@@ -1,0 +1,29 @@
+class Solution {
+public:
+
+    void solve(TreeNode* root, int l, int h){
+        if(root==NULL) return;
+
+        while(root->left!=NULL){
+            if(root->left->val<l) root->left = root->left->right;
+            else if(root->left->val>h) root->left = root->left->left;
+            else break;
+        }
+
+        while(root->right!=NULL){
+            if(root->right->val>h) root->right = root->right->left;
+            else if(root->right->val<l) root->right = root->right->right;
+            else break;
+        }
+
+        solve(root->left,l,h);
+        solve(root->right,l,h);
+    }
+
+    TreeNode* trimBST(TreeNode* root, int l, int h) {
+        TreeNode* temp = new TreeNode(INT_MAX);
+        temp->left = root;
+        solve(temp,l,h);
+        return temp->left;
+    }
+};

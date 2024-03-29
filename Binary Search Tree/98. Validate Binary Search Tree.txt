@@ -1,0 +1,42 @@
+-------- method 1  --------
+
+class Solution {  // T.C = O(n^2)
+public:
+
+    long long minTree(TreeNode* root){
+        if(root==NULL) return LLONG_MAX;
+        long long x = min(minTree(root->left),minTree(root->right));
+        return min((long long)(root->val),x);
+    }
+    long long maxTree(TreeNode* root){
+        if(root==NULL) return LLONG_MIN;
+        long long x = max(maxTree(root->left),maxTree(root->right));
+        return max((long long)(root->val),x);
+    }
+    bool isValidBST(TreeNode* root) {
+        if(root==NULL) return true;
+        else if((long long)(root->val) <= maxTree(root->left)) return false;
+        else if((long long)(root->val) >= minTree(root->right)) return false;
+        else return isValidBST(root->left) && isValidBST(root->right);
+    }
+};
+
+-------- method 2 --------
+
+class Solution {
+public:                                 
+    void inorder(TreeNode* root, vector<int>& v){
+        if(root==NULL) return;
+        inorder(root->left,v);
+        v.push_back(root->val);
+        inorder(root->right,v);
+    }
+    bool isValidBST(TreeNode* root) {
+        vector<int>v;
+        inorder(root,v);
+        for(int i=1; i<v.size(); i++){
+            if(v[i]<=v[i-1]) return false;
+        }
+        return true;
+    }
+};
