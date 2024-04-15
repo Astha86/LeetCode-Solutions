@@ -1,0 +1,56 @@
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        Node* temp = head;
+        Node* copy = new Node(3000);
+        Node* local = copy;
+        while(temp){
+            Node* a = new Node(temp->val);
+            local->next = a;
+            temp = temp->next;
+            local = a;
+        }
+        Node* dummy = new Node(3000);
+        Node* frzi = dummy;
+        temp = head;
+        local = copy->next;
+        while(temp){
+            frzi->next = temp;
+            temp = temp->next;
+            frzi = frzi->next;
+            frzi->next = local;
+            local = local->next;
+            frzi = frzi->next;
+        }
+        dummy = dummy->next;
+
+        temp = dummy;
+        local = dummy;
+        while(temp){
+            local = temp->next;
+            if(temp->random){
+                local->random = temp->random->next;
+            }
+            temp = local->next;
+        }
+        
+        frzi = dummy;
+        head = new Node(3000);
+        temp = head;
+        copy = new Node(3000);
+        local = copy;
+        while(frzi){
+            temp->next = frzi;
+            frzi = frzi->next;
+            temp = temp->next;
+            local->next = frzi;
+            frzi = frzi->next;
+            local = local->next;
+        }
+        temp->next = NULL;
+        local->next = NULL;
+        head = head->next;
+        copy = copy->next;
+        return copy;
+    }
+};

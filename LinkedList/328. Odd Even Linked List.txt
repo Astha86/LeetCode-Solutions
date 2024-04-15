@@ -1,0 +1,21 @@
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        ListNode* temp = head;
+        ListNode* odd = new ListNode(3000);
+        ListNode* o = odd;
+        ListNode* even = new ListNode(3000);
+        ListNode* e = even;
+        while(temp){
+            o->next = temp;
+            temp = temp->next;
+            o = o->next;
+            e->next = temp;
+            if(temp)temp = temp->next;
+            e = e->next;
+        }
+        o->next = even->next;
+        head = odd->next;
+        return head;
+    }
+};

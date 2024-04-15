@@ -1,0 +1,26 @@
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* back = NULL;
+        ListNode* front = head;
+        ListNode* current = head;
+
+        while(current != NULL){
+            front = current->next;
+            current->next = back;
+            back = current;
+            current = front;
+        }
+        return back;
+
+        // Recursively
+
+        // if(head==NULL || head->next==NULL) return head;
+        // ListNode* ans = reverseList(head->next);
+        // head->next->next = head;
+        // head->next = NULL;
+        // return ans;
+
+        // not good in space complexity = O(n)
+    }
+};

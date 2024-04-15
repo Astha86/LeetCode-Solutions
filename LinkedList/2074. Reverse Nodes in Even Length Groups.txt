@@ -1,0 +1,61 @@
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* back = NULL;
+        ListNode* front = head;
+        ListNode* current = head;
+
+        while(current != NULL){
+            front = current->next;
+            current->next = back;
+            back = current;
+            current = front;
+        }
+        return back;
+    }
+
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if(left == right) return head;
+        ListNode* a = NULL;
+        ListNode* b = NULL;
+        ListNode* c = NULL;
+        ListNode* d = NULL;
+        ListNode* temp = head; 
+        int n = 1;
+        while(temp != NULL){
+            if(n==left-1) a = temp;
+            if(n==left) b = temp;
+            if(n==right) c = temp;
+            if(n==right+1) d = temp;
+            temp = temp->next;
+            n++;
+        }
+        if(a!=NULL) a->next = NULL;
+        if(c!=NULL)c->next = NULL;
+        c = reverseList(b);
+        if(a!=NULL) a->next = c;
+        b->next = d;
+        if(a!=NULL) return head;
+        return c;
+    }
+
+    ListNode* reverseEvenLengthGroups(ListNode* head) {
+        ListNode* temp = head;
+        int d = 1;
+        while(temp && temp->next){
+            int size = 0;
+            ListNode* local = temp->next;
+            for(int i=1; local!=NULL && i<=d+1; i++){
+                local = local->next;
+                size++;
+            }
+            if(size<d+1) d = size-1;
+            if(d%2==1) reverseBetween(temp,2,2+d);
+            d++;
+            for(int i=1; temp!=NULL && i<=d; i++){
+                temp = temp->next;
+            }
+        }
+        return head;
+    }
+};

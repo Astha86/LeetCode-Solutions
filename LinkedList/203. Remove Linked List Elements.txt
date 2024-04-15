@@ -1,0 +1,14 @@
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        if(head==NULL) return head;
+        ListNode* a = new ListNode(-1);
+        a->next = head;
+        ListNode* temp = a;
+        while( temp->next != NULL){
+            if(temp->next->val == val) temp->next = temp->next->next;
+            else temp = temp->next;
+        }
+        return a->next;
+    }
+};

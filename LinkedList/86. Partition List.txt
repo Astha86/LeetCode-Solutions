@@ -1,0 +1,26 @@
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode* templ = new ListNode(3000);
+        ListNode* lo = templ;
+        ListNode* temph = new ListNode(3000);
+        ListNode* hi = temph;
+        ListNode* temp = head;
+        while(temp!=NULL){
+            if(temp->val < x){
+                lo->next = temp;
+                temp = temp->next;
+                lo = lo->next;
+            }
+
+            else{
+                hi->next = temp;
+                temp = temp->next;
+                hi = hi->next;
+            }
+        }
+        lo->next = temph->next;
+        hi->next = NULL;
+        return templ->next;
+    }
+};

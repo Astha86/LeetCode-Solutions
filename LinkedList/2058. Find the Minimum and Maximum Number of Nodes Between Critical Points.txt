@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<int> nodesBetweenCriticalPoints(ListNode* head) {
+        ListNode* back = head;
+        ListNode* main = head->next;
+        ListNode* front = head->next->next;
+        if(front==NULL) return {-1,-1};
+        int idx = 1;
+        int idx1 = -1;
+        int idx2 = -1;
+        int d = -1;
+        int mini = INT_MAX;
+        int maxi = -1;
+        int d1 = -1;
+        int c = 0;
+        while(front){
+            if(((main->val < back->val) && (main->val < front->val)) || ((main->val > back->val) && (main->val > front->val))) {
+                c++;
+                if(idx1==-1) idx1 = idx;
+                else{
+                    d1 = idx-idx1;
+                    d = idx - idx2;
+                    if(d1<d) mini = d1;
+                    idx2 = idx;
+                    if(idx==idx1+1) mini = 1;
+                    else mini = min(mini,d);
+                }
+            }
+            back = back->next;
+            main = main->next;
+            front = front->next;
+            idx++;
+        }
+        maxi = idx2-idx1;
+        if(c==2) mini = maxi;
+        if(idx2==-1) return {-1,-1};
+        return {mini,maxi};
+    }
+};

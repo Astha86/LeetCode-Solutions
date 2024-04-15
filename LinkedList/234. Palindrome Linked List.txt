@@ -1,0 +1,20 @@
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if(head == NULL || head->next == NULL) return true;
+        ListNode* a = NULL;
+        ListNode* b = head;
+        while(b!=NULL){
+            ListNode *temp = new ListNode(b->val);
+            temp ->next = a;
+            a = temp;
+            b = b->next;
+        }
+        while(head!=NULL && a!=NULL){
+            if(head->val != a->val) return false;
+            head = head->next;
+            a = a->next;
+        }
+        return true;
+    }
+};
