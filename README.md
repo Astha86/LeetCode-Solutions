@@ -1,2 +1,2 @@
-# LeetCode-Questions
+# LeetCode-Solutions
 This repository contains the collection of LeetCode TopicWise Solutions that I have solved while practicing DSA. 
