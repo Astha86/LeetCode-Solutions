@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        int ryt = n-1;
+        int lft = 0;
+        int dwn = n-1;
+        int up = 1;
+        int count = 0;
+        int te = n*n;
+        vector<vector<int>> v(n, vector<int> (n));
+        while(count <= te){
+            for(int i=lft; i<=ryt; i++){
+                count++;
+                v[up-1][i] = count;
+            }
+            ryt--;
+            if(count == te) break;
+
+            for(int i=up; i<=dwn; i++){
+                count++;
+                v[i][ryt+1] = count;
+            }
+            dwn--;
+            if(count == te) break;
+
+            for(int i=ryt; i>=lft; i--){
+                count++;
+                v[dwn+1][i] = count;
+            }
+            lft++;
+            if(count == te) break;
+
+            for(int i=dwn; i>=up; i--){
+                count++;
+                v[i][lft-1] = count;
+            }
+            up++;
+        }
+        return v;
+    }
+};

@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int buyChoco(vector<int>& prices, int money) {
+        sort(prices.begin(),prices.end());
+        int n = prices.size();
+        for(int i=0; i<n-1; i++){
+            for(int j=i+1; j<n; j++){
+                if((prices[i]+prices[j]) <= money) return money-(prices[j]+prices[i]);
+            }
+        }
+        return money;
+    }
+};
