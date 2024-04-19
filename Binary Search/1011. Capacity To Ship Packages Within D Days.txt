@@ -1,0 +1,47 @@
+class Solution {
+public:
+
+    bool checkCapacity(int mid, vector<int>& weights, int days){
+        int n = weights.size();
+        int m  = mid;
+        int nday = 1;
+        for(int i=0; i<n; i++){
+            if(m>=weights[i])
+            m -= weights[i];
+
+            else{
+                nday++;
+                m = mid;
+                m -= weights[i];
+            }
+        }
+
+        if(nday>days) return false;
+        else return true;
+
+    }
+
+    int shipWithinDays(vector<int>& weights, int days) {
+        int n = weights.size();
+        int max = INT_MIN;
+        int sum = 0;
+        for(int i=0; i<n; i++){
+            if(max<weights[i]) max = weights[i];
+            sum += weights[i];
+        }
+
+        int lo = max;
+        int hi = sum;
+        int ans = sum;
+        while(lo<=hi){
+            int mid = (hi+lo)/2;
+            if(checkCapacity(mid,weights,days)){
+                ans = mid;
+                hi = mid-1;
+            }
+            else lo = mid+1;
+        }
+
+        return ans;
+    }
+};

@@ -1,0 +1,84 @@
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int n = arr.size();
+        vector<int> v(k);
+
+        if(x<=arr[0]){
+            for(int i=0; i<k; i++){
+                v[i] = arr[i];
+            }
+        return v;
+        }
+
+        if(x>arr[n-1]){
+            int j = k-1;
+            int i = n-1;
+            while(j>=0){
+                v[j] = arr[i];
+                i--;
+                j--;
+            }
+        return v;
+        }
+
+        int hi = n-1;
+        int lo = 0;
+        int idx = 0;
+        int mid = -1;
+        bool flag = false;
+        while(lo<=hi){
+            mid = lo+(hi-lo)/2;
+            if(arr[mid]==x){
+                flag = true;
+                v[idx] = arr[mid];
+                idx++;
+                break;
+            }
+            else if(arr[mid]<x) lo = mid+1;
+            else hi = mid-1;
+        }
+
+        int l = hi;
+        int u = lo;
+        if(flag==true){
+            l = mid-1;
+            u = mid+1;
+        }
+
+        while(idx<k && l>=0 && u<n){
+            int dl = abs(x-arr[l]); //difference of lower bound
+            int du = abs(x-arr[u]); //difference of upper bound
+            if(dl<=du){
+                v[idx] = arr[l];
+                l--;
+            }
+            else{
+                v[idx] = arr[u];
+                u++;
+            }
+            idx++;
+        }
+
+        if(l<0){
+            while(idx<k){
+                v[idx] = arr[u];
+                u++;
+                idx++;
+            }
+        }
+
+        if(u>n-1){
+            while(idx<k){
+                v[idx] = arr[l];
+                l--;
+                idx++;
+            }
+        }
+        
+        sort(v.begin(),v.end()); //0(klogk)
+        return v;
+    }
+    // SC = 0(k)
+    // TC = 0(logn + klogk)
+};
