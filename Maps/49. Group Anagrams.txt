@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string,vector<string>>mp;
+        for(auto str : strs){
+            string sortStr = str;
+            sort(sortStr.begin(),sortStr.end());
+            if(mp.find(sortStr) == mp.end()){
+                vector<string> v;
+                v.push_back(str);
+                mp[sortStr] = v;
+            }
+
+            else{
+                mp[sortStr].push_back(str);
+            }
+        }
+
+        vector<vector<string>> ans;
+        for(auto x : mp){
+            ans.push_back(x.second);
+        }
+        return ans;
+    }
+};
+
+// T.C = O(n. klogk) k=size of each string
+// S.C = O(n)

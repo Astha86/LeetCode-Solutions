@@ -1,0 +1,22 @@
+// map+math logic
+
+class Solution {
+public:
+    bool canArrange(vector<int>& v, int k) {
+        int n = v.size();
+        unordered_map<int,int> mp;
+        for(int i=0; i<n; i++){
+            v[i] = ((v[i] % k)+k)%k; // very important
+            mp[v[i]]++;
+        }
+
+        if(mp[0]%2==1) return false;
+        if(mp.find(0) != mp.end())mp.erase(0);
+        for(auto x: mp){
+            int key = x.first;
+            if(mp.find(k-key) == mp.end()) return false;
+            if(mp[key] != mp[k-key]) return false;
+        }
+        return true;
+    }
+};

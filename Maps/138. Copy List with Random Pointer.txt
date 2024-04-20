@@ -1,0 +1,42 @@
+// T.C = O(n) S.C = O(n)
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+    // Step 1 - Create the deep copy without the random pointer
+
+        Node* temp = head;
+        Node* copy = new Node(3000);
+        Node* local = copy;
+        while(temp){
+            Node* a = new Node(temp->val);
+            local->next = a;
+            temp = temp->next;
+            local = a;
+        }
+
+        Node* a = head;
+        Node* b = copy->next;
+
+        // Step 2 - Make a map<original,dupliate>
+
+        unordered_map<Node*,Node*> m;
+        Node* frziA = a;
+        Node* frziB = b;
+        while(frziA != NULL){
+            m[frziA] = frziB;
+            frziA = frziA->next;
+            frziB = frziB->next;
+        }
+
+        for(auto x: m){
+            frziA = x.first;
+            frziB = x.second;
+            if(frziA->random){
+                frziB->random = m[frziA->random];
+            }
+        }
+    
+        return b;
+    }
+};

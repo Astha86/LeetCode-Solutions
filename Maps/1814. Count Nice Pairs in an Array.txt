@@ -1,0 +1,45 @@
+/*
+    logic: 
+    
+    nums[i] + rev(nums[j]) == nums[j] + rev(nums[i])
+
+    vector element becomes :
+    nums[i] - rev(nums[i]) == nums[j] - rev(nums[j])
+
+    now using map i can get the pairs easily 
+
+*/
+
+
+class Solution {
+public:
+
+    int rev(int n){
+        int r = 0;
+        while(n>0){
+            r *= 10;
+            r += (n%10);
+            n /= 10;
+        }
+        return r;
+    }
+
+    int countNicePairs(vector<int>& nums) {
+        int n = nums.size();
+        for(int i=0; i<n; i++){
+            nums[i] -= rev(nums[i]);
+        }
+
+        unordered_map<int,int> m;
+        int count = 0;
+        for(auto ele : nums){
+            if(m.find(ele) != m.end()) {
+                count = count%1000000007;
+                count += m[ele];
+            }
+            m[ele]++;
+        }
+
+        return count%1000000007;
+    }
+};

@@ -1,0 +1,46 @@
+-------- method 1 (Using 2 Maps) --------
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if(s.size() != t.size()) return false;
+        unordered_map<char,int> ms;
+        unordered_map<char,int> mt;
+        for(int i=0; i<s.size(); i++){
+            ms[s[i]]++;
+            mt[t[i]]++;
+        }
+        for(auto x: ms){
+            int ch = x.first;
+            int f = x.second;
+            if(mt.find(ch)!=mt.end()){
+                if(mt[ch]!=f) return false;
+            }
+            else return false;
+        }
+        return true;
+    }
+};
+
+-------- method 1 (Using Single Maps) --------
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if(s.size() != t.size()) return false;
+        unordered_map<char,int> m;
+        for(int i=0; i<s.size(); i++){
+            m[s[i]]++;
+        }
+
+        for(int i=0; i<t.size(); i++){
+            if(m.find(t[i]) != m.end()){
+                m[t[i]]--;
+                if(m[t[i]]==0) m.erase(t[i]);
+            }
+            else return false;
+        }
+        if(m.size()>0) return false;
+        return true;
+    }
+};

@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> findEvenNumbers(vector<int>& digits) {
+        int n  = digits.size();
+        unordered_map<int,int>m;
+        for(int ele : digits){
+            m[ele]++;
+        }
+
+        vector<int>ans;
+        for(int i=1; i<10; i++){
+            for(int j=0; j<10; j++){
+                for(int k=0; k<10; k+=2){
+                    if(m.find(i) != m.end()){
+                        m[i]--; //reducing frequency
+                        if(m[i]==0) m.erase(i); // deleting the element if freq == 0 
+                        if(m.find(j) != m.end()){
+                            m[j]--;
+                            if(m[j]==0) m.erase(j);
+                            if(m.find(k) != m.end()) ans.push_back(i*100+j*10+k);
+                            m[j]++;
+                        }
+                        m[i]++;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};

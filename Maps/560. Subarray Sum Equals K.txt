@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> v(n); // prefix sum array
+        v[0] = nums[0];
+        for(int i=1; i<n; i++){
+            v[i] = v[i-1] + nums[i];
+        }
+
+        unordered_map<int,int> mp;
+        int count = 0;
+        for(int i=0; i<n; i++){
+            if(v[i]==k) count++;
+            int x = v[i] - k;
+            if(mp.find(x)!=mp.end()) count += mp[x];
+            mp[v[i]]++;
+        }
+        return count++;
+    }
+};
