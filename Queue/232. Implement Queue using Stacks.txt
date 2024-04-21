@@ -1,0 +1,88 @@
+-------- method 1 --------
+
+class MyQueue {
+public:
+
+    stack<int> s;
+    stack<int> temp;
+    
+    MyQueue() {
+        
+    }
+    
+    void push(int x) {    //O(n)
+        while(s.empty()==0){
+            temp.push(s.top());
+            s.pop();
+        }
+        s.push(x);
+        while(temp.empty()==0){
+            s.push(temp.top());
+            temp.pop();
+        }
+    }
+    
+    int pop() {    //O(1)
+        int x = s.top();
+        s.pop();
+        return x;
+    }
+    
+    int peek() {    //O(1)
+        return s.top();
+    }
+    
+    bool empty() {
+        return s.empty();
+    }
+};
+
+
+-------- method 2 --------
+
+
+class MyQueue {
+public:
+    stack<int> s;
+    stack<int> temp;
+    MyQueue() {
+        
+    }
+    
+    void push(int x) {  //O(1)
+        s.push(x);
+    }
+    
+    int pop() {      //O(n)
+        while(s.size()>0){
+            temp.push(s.top());
+            s.pop();
+        }
+
+        int x = temp.top();
+        temp.pop();
+        while(temp.size()>0){
+            s.push(temp.top());
+            temp.pop();
+        }
+        return x;
+    }
+    
+    int peek() {   //O(n)
+        while(s.size()>0){
+            temp.push(s.top());
+            s.pop();
+        }
+
+        int x = temp.top();
+        while(temp.size()>0){
+            s.push(temp.top());
+            temp.pop();
+        }
+        return x;
+    }
+    
+    bool empty() {
+        return s.empty();
+    }
+};
