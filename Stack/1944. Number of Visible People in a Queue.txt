@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> canSeePersonsCount(vector<int>& heights) {
+        int n = heights.size();
+        vector<int> v(n);
+        v[n-1] = 0;
+        stack<int>s;
+        s.push(heights[n-1]);
+        for(int i=n-2; i>=0; i--){
+            int count = 0;
+            while(s.size()!=0 && s.top()<=heights[i]){
+                s.pop();
+                count++;
+            }
+            if(s.size()!=0) count++;
+            v[i] = count;
+            s.push(heights[i]);
+        }
+        return v;
+    }
+};
