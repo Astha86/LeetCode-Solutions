@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        int n = nums.size();
+        priority_queue<int,vector<int>,greater<int>>pq; //minHeap
+        for(int i=0; i<n; i++){ //O(n)
+            pq.push(nums[i]);          //O(log k)
+            if(pq.size()>k) pq.pop(); //O(log k)
+        }
+        return pq.top();
+    }
+};
+ 
+//T.C = O(n log k)   
+// S.C = O(n) - total Space 
+// arbitary space = O(k) - heap space

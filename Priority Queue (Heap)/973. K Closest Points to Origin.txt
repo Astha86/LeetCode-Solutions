@@ -1,0 +1,22 @@
+class Solution {
+public:
+    typedef pair<int, vector<int> > pi; 
+    vector<vector<int>> kClosest(vector<vector<int>>& p, int k) {
+        priority_queue<pi> pq;
+        for(vector<int>v : p){
+            int x = v[0];
+            int y = v[1];
+            int d = (x*x) + (y*y);
+            pq.push({d,v});
+            if(pq.size()>k) pq.pop();
+        }
+
+        vector<vector<int>> ans;
+        while(pq.size()){
+            ans.push_back(pq.top().second);
+            pq.pop();
+        }
+
+        return ans;
+    }
+};
