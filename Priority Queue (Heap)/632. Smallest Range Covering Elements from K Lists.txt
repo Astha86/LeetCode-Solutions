@@ -1,0 +1,37 @@
+class Solution {
+public:
+    typedef pair<int,pair<int,int>> p;
+
+    
+    vector<int> smallestRange(vector<vector<int>>& arr) {
+        priority_queue<p,vector<p>,greater<p>> pq;
+
+        int maxi = INT_MIN;
+        for(int i=0; i<arr.size(); i++){
+            pq.push({arr[i][0], {i,0}});
+            maxi = max (arr[i][0], maxi);
+        }
+
+        int mini = pq.top().first;
+        int start = mini;
+        int end = maxi;
+
+        while(1){
+            int r = pq.top().second.first;
+            int c = pq.top().second.second;
+            pq.pop();
+            if(c==arr[r].size()-1) break;
+            pq.push({arr[r][c+1],{r,c+1}});
+            maxi = max (arr[r][c+1], maxi);
+            mini = pq.top().first;
+            if(maxi-mini < end-start){
+                start = mini;
+                end = maxi;
+            }
+        }
+
+        return {start,end};
+    }
+};
+
+// T.C = O(nk logk) ~ O(n logk)
