@@ -1,0 +1,26 @@
+#define mod 1000000007
+#define ll long long int
+
+class Solution {
+public:
+
+    vector<vector<ll>>dp;
+
+    int helper(int n, int k, int t){
+        if(n==0 && t==0) return 1;
+        else if(n==0) return 0;
+        else if(dp[n][t] != -1) return dp[n][t];
+        ll sum = 0;
+        for(int f=1; f<=k; f++){
+            if(t-f<0) break;
+            sum = ((sum%mod) + helper(n-1, k, t-f)%mod)%mod;
+        }
+
+        return dp[n][t] = sum;
+    }
+
+    int numRollsToTarget(int n, int k, int target) {
+        dp.resize(n+1,vector<ll>(target+1,-1));
+        return helper(n,k,target);
+    }
+};

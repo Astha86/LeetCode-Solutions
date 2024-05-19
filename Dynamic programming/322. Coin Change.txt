@@ -1,0 +1,26 @@
+// Recursion + Memoization (TOP Down DP) --- Method 1 
+class Solution {
+public:
+    
+    vector<int> dp;
+
+    int helper(vector<int>& coins, int amount){
+        if(amount==0) return 0;
+        else if(dp[amount] != -2) return dp[amount];
+
+        int result = INT_MAX;
+        for(int i=0; i<coins.size(); i++){
+            if(amount-coins[i]<0) continue;
+            result = min(result, helper(coins, amount-coins[i]));
+        }
+        
+        return dp[amount] = (result == INT_MAX) ? INT_MAX : result+1;
+    }
+
+    int coinChange(vector<int>& coins, int amount) {
+        dp.resize(amount+1,-2);
+        int ans = helper(coins, amount);
+        if(ans==INT_MAX) return -1;
+        else return ans;
+    }
+};

@@ -1,0 +1,33 @@
+// Recursion + Memoization (TOP Down DP) --- Method 1
+class Solution {
+public:
+    int helper(int sr, int er, int sc, int ec, vector<vector<int>> &dp){
+        if(sr==er && sc == ec) return 1;
+        else if(sr>er || sc>ec) return 0;
+        else if(dp[sr][sc] != -1) return dp[sr][sc];
+        dp[sr][sc] = helper(sr+1,er,sc,ec,dp) + helper(sr,er,sc+1,ec,dp);
+        return dp[sr][sc];
+    }
+    int uniquePaths(int r, int c) {
+        vector<vector<int>> dp(r,vector<int>(c,-1));
+        return helper(0,r-1,0,c-1,dp);
+    }
+};
+
+// Tabulation(Bottom UP DP)--- Method 2
+
+class Solution {
+public:
+    int uniquePaths(int r, int c) {
+        vector<vector<int>> dp(r,vector<int>(c));
+        for(int i=0; i<r; i++){
+            for(int j=0; j<c; j++){
+                if(i==0 || j==0) dp[i][j] = 1;
+                else{
+                    dp[i][j] = dp[i-1][j] + dp[i][j-1];
+                }
+            }
+        }
+        return dp[r-1][c-1];
+    }
+};
