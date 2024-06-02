@@ -1,0 +1,54 @@
+// Recursion + Memoization (TOP Down DP) --- Method 1 
+
+class Solution {
+public:
+
+    vector<vector<int>> dp;
+    int r;
+    int c;
+
+    int helper(int i,int j, vector<vector<int>>& a) {
+        if(i==r-1 && j==c-1) return a[r-1][c-1];
+        if(i>=r || j>=c) return INT_MAX;
+        if(dp[i][j] != -1) return dp[i][j];
+
+        return dp[i][j] = a[i][j] + min(helper(i+1,j,a), helper(i,j+1,a));
+    }
+
+    int minPathSum(vector<vector<int>>& grid) {
+        r = grid.size();
+        c = grid[0].size();
+        dp.resize(201, vector<int>(201,-1));
+        return helper(0,0,grid);
+    }
+};
+
+// Tabulation(Bottom UP DP)--- Method 2
+
+class Solution {
+public:
+    vector<vector<int>> dp;
+
+    int minPathSum(vector<vector<int>>& grid) {
+        int r = grid.size();
+        int c = grid[0].size();
+        dp.resize(201, vector<int>(201,0));
+        dp[r-1][c-1] = grid[r-1][c-1];
+
+        for(int i=r-2; i>=0; i--){
+            dp[i][c-1] = grid[i][c-1] + dp[i+1][c-1];
+        }
+
+        for(int i=c-2; i>=0; i--){
+            dp[r-1][i] = grid[r-1][i] + dp[r-1][i+1];
+        }
+
+        for(int i=r-2; i>=0; i--){
+            for(int j=c-2; j>=0; j--){
+                dp[i][j] = grid[i][j] + min(dp[i+1][j],dp[i][j+1]);
+            }
+        }
+
+        return dp[0][0];
+    }
+};

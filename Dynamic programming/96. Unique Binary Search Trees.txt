@@ -1,0 +1,71 @@
+// Only Recursion  --- Method 1
+
+class Solution {
+public:
+    int numTrees(int n) {
+        if(n<1) return 1;
+        if(n==2) return 2;
+
+        int ans = 0;
+        // for each node 
+        for(int i=1; i<=n; i++){
+            ans += numTrees(i-1) * numTrees(n-i);
+        }
+
+        return ans;
+    }
+};
+
+
+// Recursion + Memoization (TOP Down DP) --- Method 2
+
+class Solution {
+public:
+
+    vector<int> dp;
+
+    int helper(int n){
+        if(n<1) return 1;
+        if(n==2) return 2;
+        if(dp[n]!=-1) return dp[n];
+
+        int ans = 0;
+        // for each node 
+        for(int i=1; i<=n; i++){
+            ans += numTrees(i-1) * numTrees(n-i);
+        }
+
+        return dp[n] = ans;
+    }
+
+    int numTrees(int n) {
+        dp.resize(50,-1);
+        return helper(n);
+    }
+};
+
+
+
+// Tabulation(Bottom UP DP)--- Method 3
+
+class Solution {
+public:
+
+    vector<int>dp;
+    int numTrees(int n) {
+        dp.resize(50,0);
+        dp[0] = 1;
+        dp[1] = 1;
+        dp[2] = 2;
+
+        int ans = 0;
+        // for each node 
+        for(int i=3; i<=n; i++){
+            for(int k=1; k<=i; k++){
+                dp[i] += dp[k-1] * dp[i-k];
+            }
+        }
+
+        return dp[n];
+    }
+};
