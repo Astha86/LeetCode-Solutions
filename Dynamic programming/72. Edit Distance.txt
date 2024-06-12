@@ -1,0 +1,68 @@
+// Tabulation(Bottom UP DP)--- Method 1
+
+class Solution {
+public:
+    int dp[508][508];
+
+    int minDistance(string s1, string s2) {
+        memset(dp, -1, sizeof(dp));
+
+        int m = s1.size();
+        int n = s2.size();
+
+        for (int i=0; i<=m; i++){
+            dp[i][n] = m-i;
+        }
+
+        for (int j=0; j<=n; j++){
+            dp[m][j] = n-j;
+        }
+
+        for(int i=m-1; i>=0; i--) {
+            for(int j=n-1; j>=0; j--) {
+                if(s1[i] == s2[j]) dp[i][j] = dp[i+1][j+1]; //same
+                
+                else {
+                    dp[i][j] = min({
+                        1 + dp[i + 1][j + 1], // Replace
+                        1 + dp[i + 1][j],     // Delete
+                        1 + dp[i][j + 1]      // Insert
+                    });
+                }
+            }
+        }
+
+        return dp[0][0];
+    }
+};
+
+
+
+// Recursion + Memoization (TOP Down DP) --- Method 2
+
+class Solution {
+public:
+
+    int dp[508][508];
+
+    int helper(string &s1, string &s2, int i, int j){
+        if(i==s1.size()) return s2.size()-j;
+        if(j==s2.size()) return s1.size()-i;
+        if(dp[i][j] != -1) return dp[i][j];
+        if(s1[i] == s2[j]) return dp[i][j] = helper(s1, s2, i+1, j+1);
+
+        return dp[i][j] = min(
+            {
+                1 + helper(s1, s2, i+1, j+1),
+                1 + helper(s1, s2, i+1, j),
+                1 + helper(s1, s2, i, j+1)
+            }
+        );
+
+    }
+
+    int minDistance(string word1, string word2) {
+        memset(dp, -1, sizeof (dp));
+        return helper(word1, word2, 0, 0);
+    }
+};

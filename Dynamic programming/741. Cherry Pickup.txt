@@ -1,0 +1,52 @@
+// follow-up question of ---    https://www.spoj.com/problems/TOURIST/
+
+#define ll long long int
+class Solution {
+public:
+
+    ll n, m; 
+    int c = INT_MIN;
+    vector<vector<int>> mat;
+    ll dp[58][58][58];
+
+    ll helper(ll i, ll j, ll x, ll y) {
+
+        if(i > n or j > m or x > n or y > m or mat[i][j] == -1 or mat[x][y] == -1) return c;
+        
+        if(i == n and j == m) return mat[i][j] == 1;
+
+        if(dp[i][j][x] != -1) return dp[i][j][x];
+        ll result = c;
+
+        result = max(result, helper(i+1, j, x+1, y));
+        result = max(result, helper(i+1, j, x, y+1));
+        result = max(result, helper(i, j+1, x+1, y));
+        result = max(result, helper(i, j+1, x, y+1));
+
+        if(result == c) return dp[i][j][x] = c;
+
+        result += (mat[i][j] == 1);
+        result += (mat[x][y] == 1);
+
+        // remove repetition 
+        if(i == x and j == y and mat[i][j] == 1) result--;
+
+        return dp[i][j][x] = result;
+    }
+
+    int cherryPickup(vector<vector<int>>& grid) {
+        n = grid.size();
+        m = grid[0].size();
+        memset(dp, -1, sizeof dp);
+
+        mat.clear();
+        mat.resize(58, vector<int>(58,0));
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<m; j++) {
+               mat[i+1][j+1] = grid[i][j];
+            }
+        }
+        ll ans =  helper(1,1,1,1);
+        return ans == c ? 0: ans;
+    }
+};
