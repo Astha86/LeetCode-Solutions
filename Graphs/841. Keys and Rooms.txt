@@ -1,0 +1,26 @@
+// bfs on graph
+
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        unordered_set<int>visited;
+        queue<int>q;
+        
+        q.push(0);
+        visited.insert(0);
+
+        while(!q.empty()){
+            int curr = q.front();
+            q.pop();
+            for(int key : rooms[curr]){
+                if(visited.count(key)==0){ // means not visited
+                    q.push(key);
+                    visited.insert(key);
+                }
+            }
+        }
+
+        if(visited.size()==rooms.size()) return true;
+        else return false;
+    }
+};

@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<Node*> adrs; // to store address of cloned nodes
+
+    void dfs(Node* org, Node* copy){
+        for(auto neighbour : org->neighbors){ //check for each neighbour
+
+            if(adrs[neighbour->val] == NULL){ // that means node not created yet
+                Node* dummy = new Node(neighbour->val);
+                adrs[neighbour->val] = dummy;
+                copy->neighbors.push_back(dummy); //adding as a neighbour
+                dfs(neighbour, dummy);
+            }
+
+            else{
+                copy->neighbors.push_back(adrs[neighbour->val]);
+            }
+        }
+    }
+
+    Node* cloneGraph(Node* node) {
+        if(node == NULL) return NULL;
+        adrs.resize(108, NULL);
+        Node* copy = new Node(node->val);
+        adrs[node->val] = copy;
+        dfs(node,copy); // pasing the "original" node and "cloned" node
+        return copy;
+    }
+};

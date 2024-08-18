@@ -1,0 +1,44 @@
+class Solution {
+public:
+
+    vector<pair<int, int> > mid;
+
+    void dfs(vector<vector<int>>& image, int r, int c, int initialcolor, int newColor){
+        int n = image.size();
+        int m = image[0].size();
+
+        if(r<0 || c<0 || r>=n || c>=m) return;
+        if(image[r][c] != initialcolor) return; 
+        
+        image[r][c] = -newColor;
+
+        dfs(image,r,c-1,initialcolor,newColor); //left
+        dfs(image,r,c+1,initialcolor,newColor); //right
+        dfs(image,r-1,c,initialcolor,newColor); //up
+        dfs(image,r+1,c,initialcolor,newColor); //down
+
+        if(!(r==0 || c==0 || r==n-1 || c==m-1 || image[r][c-1]!=-newColor || image[r][c+1]!=-newColor || image[r-1][c]!=-newColor || image[r+1][c]!=-newColor)){
+            mid.push_back({r, c}); // curr cell is internal
+        }
+    }
+
+    vector<vector<int>> colorBorder(vector<vector<int>>& grid, int row, int col, int color) {
+        int originalColor = grid[row][col];
+        if(originalColor==color) return grid;
+        dfs(grid,row,col,originalColor,color);
+
+        for(auto p : mid) {
+            int i = p.first;
+            int j = p.second;
+            grid[i][j] = originalColor;  // filling the original color
+        }
+
+        for(int i = 0; i < grid.size(); i++) {
+            for(int j = 0; j < grid[0].size(); j++) {
+                if(grid[i][j] < 0) grid[i][j]*=-1;
+            }
+        }
+
+        return grid;
+    }
+};
