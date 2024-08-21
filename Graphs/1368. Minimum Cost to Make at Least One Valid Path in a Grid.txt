@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int minCost(vector<vector<int>>& grid) {
+        int r = grid.size();
+        int c = grid[0].size();
+
+        int ans[r][c] ;
+        for(int i=0; i<r; i++){
+            for(int j=0; j<c; j++){
+                ans[i][j] = INT_MAX;
+            }
+        }
+
+        deque<pair<int,int>>dq;
+        ans[0][0] = 0;
+        dq.push_front({0,0});
+
+        int dx[4] = {0,0,1,-1};
+        int dy[4] = {1,-1,0,0};
+
+        while(!dq.empty()){
+            auto curr = dq.front();
+            dq.pop_front();
+            int x = curr.first;
+            int y = curr.second;
+
+            for(int i=0; i<4; i++){
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+
+                int wt = 1;
+                if(i+1 == grid[x][y]) wt = 0; // which means moving in the same direct as cell directs
+
+                // check whether the next cell lie under grid or not
+                if(nx<r && ny<c && nx>=0 && ny>=0){
+                    if(ans[nx][ny] > ans[x][y]+wt){
+                        ans[nx][ny] = ans[x][y]+wt;
+                        if(wt==1) dq.push_back({nx,ny});
+                        else dq.push_front({nx,ny});
+                    }
+                } 
+            }
+        }
+        return ans[r-1][c-1];
+    }
+};
+
+//T.C = O(r+c)
